@@ -2,12 +2,22 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
-  	this.on('add', this.playFirst, this);
+   // we should only call playFirst when current song playing ends
+
+   this.on('add', this.checkQueueLength, this);
+    // this.on('remove', this.playFirst, this);
   },
 
   playFirst: function() {
-  	var first = this.shift();
-  	first.play();
+    var firstSong = this.at(0);
+    firstSong.play();
+    console.log('playFirst called',this);
+  },
+
+  checkQueueLength : function(){
+    if( this.length === 1 ){
+      this.playFirst();
+    }
   }
 
 
